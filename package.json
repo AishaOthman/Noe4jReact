@@ -1,0 +1,14 @@
+{
+  "name": "Noe4jReact",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "AishaOthman <aishoabukaseem@gmail.com>",
+  "license": "MIT",
+  "private":"true",
+  "devDependencies": {
+    "lerna": "^6.6.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
