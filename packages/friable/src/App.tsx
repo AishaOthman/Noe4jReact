@@ -1,32 +1,40 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { json } from 'stream/consumers';
-import {QueryPayload} from '../../express/server';
-
+import {QueryPayload} from 'shared_data';
 function App() {
+  async function getServerData(){
+    const serverResponse = await fetch('http://localhost:3001');
+    const result:QueryPayload = await serverResponse.json();
+    console.log("************************")
+    console.log("!",result.payload,"!");
+    console.log("************************")
+  }
+  async function getNeo4jData(){
+    const serverResponse = await fetch('http://localhost:3001/neo4j');
+    const result:QueryPayload = await serverResponse.json();
+    console.log("************************")
+    console.log("!",result.payload,"!");
+    console.log("************************")
+    
+  }
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          LETS GET ROCKING!!
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <button
-       onClick={() => {
-        fetch("http://localhost:3001/", {})
-          .then((response) => response.json())
-          .then((data:QueryPayload) => console.log(data.foo));
-      }}
-        >GET DATA</button>
+          onClick={getServerData}
+        >
+          GET SOME DATA
+        </button>
+        <button
+          onClick={getNeo4jData}
+        >
+          GET SOME DATA FROM NEO4J
+        </button>
       </header>
     </div>
   );
