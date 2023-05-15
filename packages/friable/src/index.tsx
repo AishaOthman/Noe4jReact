@@ -9,6 +9,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+/>
+
     <App />
   </React.StrictMode>
 );
