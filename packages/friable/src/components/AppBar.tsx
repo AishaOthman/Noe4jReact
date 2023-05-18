@@ -36,7 +36,7 @@ export default function DrawerAppBar(props: Props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+       
       </Typography>
       <Divider />
       <List>
@@ -56,7 +56,7 @@ export default function DrawerAppBar(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{marginTop: 3}}>
         <Toolbar>
           <IconButton
             color="inherit"
