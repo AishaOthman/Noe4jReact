@@ -5,24 +5,43 @@ import './App.css';
 import container from "@mui/material/Container"
 import ResultCard from './components/ResultCard';
 import AppBar from './components/AppBar';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid'
-
+import {BrowserRouter,Routes,Route} from "react-router-dom"
+import Results from './pages/Results/Results';
+import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+// import AppBar from '@mui/material';
 
 function App() {
-  return (
-    <div className='App'>
-      <AppBar></AppBar>
-      <Container sx={{marginY:5}}>
-        <Grid container spacing={3}>
-          <ResultCard/>
-          <ResultCard/>
-          <ResultCard/>
-          <ResultCard/>
-        </Grid>
-      </Container>
-    </div>
-  );
+  // return (
+  //   <Results/>
+  // );
+    return (
+      // <AppBar></AppBar>
+    <BrowserRouter>
+      <Routes>
+        <Route path= "/"  element={<Results/>} />
+        <Route path ="/Home" element={<Home/>}/>
+        <Route path ="/Login" element={<Login/>}/>
+          
+         
+      </Routes>
+    </BrowserRouter>);
+  //   <div className='App'>
+  //     <AppBar></AppBar>
+     
+  //     <Container sx={{marginY:5}}>
+  //        <Typography  sx={{ padding:5}} component="h4" variant='h4'>Results:</Typography>
+  //       <Grid container spacing={3}>
+  //         <ResultCard/>
+  //         <ResultCard/>
+  //         <ResultCard/>
+  //         <ResultCard/>
+  //       </Grid>
+  //     </Container>
+  //   </div>
+  // );
 
   // async function getServerData(){
   //   const serverResponse = await fetch('http://localhost:3001');
