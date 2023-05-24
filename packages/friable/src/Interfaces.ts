@@ -1,3 +1,7 @@
+interface ingredient {
+  name: string;
+  amount: string;
+}
 export interface IRecipe {
     recipeName: string;
     utherName: string;
@@ -9,9 +13,10 @@ export interface IRecipe {
     skilLevel:string;
     dishType:string;
     serves:number;
-    ingredients:string[];
+    ingredients:ingredient[]
     instructions:string[];
   }
+  
 
   export interface IUser {
     userName:string;

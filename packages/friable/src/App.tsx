@@ -11,6 +11,11 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Results from './pages/Results/Results';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import AddRecipe from './pages/AddRecipe/AddRecipe';
+import ListOfIngredients from './pages/ListOfIngredients/ListOfIngredients';
+import RecipeDetails from './pages/RecipeDetails/RecipeDetails';
+import Registration from './pages/Registration/Registration';
+import UserCookBook from './pages/UserCookBook/UserCookBook';
 // import AppBar from '@mui/material';
 
 function App() {
@@ -24,8 +29,11 @@ function App() {
         <Route path= "/"  element={<Results/>} />
         <Route path ="/Home" element={<Home/>}/>
         <Route path ="/Login" element={<Login/>}/>
-          
-         
+        <Route path ="/AddRecipe" element={<AddRecipe/>}/>
+        <Route path ="/ListOfIngredients" element={<ListOfIngredients/>}/>
+        <Route path= "/RecipeDetails"  element={<RecipeDetails/>} />
+        <Route path ="/Registration" element={<Registration/>}/>
+        <Route path ="/UserCookBook" element={<UserCookBook/>}/>
       </Routes>
     </BrowserRouter>);
   //   <div className='App'>
