@@ -1,8 +1,17 @@
 import React from 'react'
+import { Link } from "react-router-dom";
+import AddNewRecipeForm from '../../components/addNewRecipeForm';
 
-function AddRecipe() {
+
+
+const AddRecipe=()=> {
   return (
-    <div>AddRecipe</div>
+    <div>
+      <div>Hello</div>
+      <Link to="/"> to results</Link>
+      <Link to="/Login"> to Login</Link>
+     <AddNewRecipeForm/>
+    </div>
   )
 }
 
