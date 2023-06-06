@@ -4,6 +4,7 @@ import { TextField, Button, Grid, Typography, InputLabel, Select, MenuItem, Text
 import RecipeIngRow from './RecipeIngRow';
 import RecipeSelectBar from './RecipeSelectBar';
 import RecipeInstruction from './RecipeInstruction';
+import { IRecipe } from '../Interfaces';
 
 interface Ingredient{
   title: string;
@@ -33,31 +34,47 @@ const Ingredients:Ingredient[] = [
   { title: "Honey", value: 20 }
 ];
 
-export const RecipeContext = createContext(
- { recipe:{
+export const RecipeContext = createContext<{
+  recipe: IRecipe;
+  setRecipe: React.Dispatch<React.SetStateAction<IRecipe | undefined>>;
+}>({
+  recipe: {
     recipeName: "",
-    utherName: "string",
-    prepTime:0,
-    cookTime:0,
-    category:"",
-    diteType:"",
-    ratings:0,
-    skilLevel:"",
-    dishType:"",
-    serves:0,
-    ingredients:[""],
-    instructions:[""],
+    utherName: "",
+    prepTime: 0,
+    cookTime: 0,
+    category: "",
+    diteType: "",
+    ratings: 0,
+    skilLevel: "",
+    dishType: "",
+    serves: 0,
+    ingredients: [],
+    instructions: [""],
   },
-  setRecipe:()=>{}
-}
+  setRecipe: () => {},
+});
 
-); 
+
 
 const AddNewRecipeForm = () => {
 
 
 
-  const [recipe, setRecipe] = useState();
+  const [recipe, setRecipe] = useState<IRecipe>({
+    recipeName: "",
+    utherName: "",
+    prepTime: 0,
+    cookTime: 0,
+    category: "",
+    diteType: "",
+    ratings: 0,
+    skilLevel: "",
+    dishType: "",
+    serves: 0,
+    ingredients: [],
+    instructions: [""],
+  });
 
 
   // const handleSubmit: FC = (event:FormEvent<HTMLFormElement>) => {
