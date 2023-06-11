@@ -34,25 +34,25 @@ const Ingredients:Ingredient[] = [
   { title: "Honey", value: 20 }
 ];
 
-export const RecipeContext = createContext<{
-  recipe: IRecipe;
-  setRecipe: React.Dispatch<React.SetStateAction<IRecipe | undefined>>;
-}>({
-  recipe: {
-    recipeName: "",
-    utherName: "",
-    prepTime: 0,
-    cookTime: 0,
-    category: "",
-    diteType: "",
-    ratings: 0,
-    skilLevel: "",
-    dishType: "",
-    serves: 0,
-    ingredients: [],
-    instructions: [""],
-  },
-  setRecipe: () => {},
+  export const RecipeContext = createContext<{
+    recipe: IRecipe;
+    setRecipe:(recipe:IRecipe)=>void;
+  }>({
+      recipe: {
+        recipeName: "",
+        utherName: "",
+        prepTime: 0,
+        cookTime: 0,
+        category: "",
+        diteType: "",
+        ratings: 0,
+        skilLevel: "",
+        dishType: "",
+        serves: 0,
+        ingredients: [],
+        instructions: [""],
+        },
+        setRecipe: () => {},
 });
 
 
