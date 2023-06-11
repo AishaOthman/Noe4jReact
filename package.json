@@ -5,6 +5,7 @@
   "author": "AishaOthman <aishoabukaseem@gmail.com>",
   "license": "MIT",
   "private":"true",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "lerna": "^6.6.1"
   },
