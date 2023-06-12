@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import  _ from "lodash";
+import  _, { omit } from "lodash";
 import neo4j, { Driver } from 'neo4j-driver';
 import bodyParser from 'body-parser';
 import { QueryPayload, IRecipe, ingredient } from 'shared_data';
