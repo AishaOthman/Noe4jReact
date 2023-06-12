@@ -148,6 +148,7 @@ app.post("/neo4j/recipe", bodyParser.json(), async (req, res) => {
   const writeResult = await addRecipe(driver, recipe);
   res.json({writeResult})
 })
+
 app.get('/neo4j/recipes', async (req, res) => {
   const { ingredients } = req.query;
 
