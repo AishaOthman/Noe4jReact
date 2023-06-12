@@ -4,7 +4,7 @@ import { TextField, Button, Grid, Typography, InputLabel, Select, MenuItem, Text
 import RecipeIngRow from './RecipeIngRow';
 import RecipeSelectBar from './RecipeSelectBar';
 import RecipeInstruction from './RecipeInstruction';
-import { IRecipe } from '../Interfaces';
+import { IRecipe } from 'shared_data';
 
 interface Ingredient{
   title: string;
