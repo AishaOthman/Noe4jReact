@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material"
 import { IRecipe } from "shared_data"
-import {defaultRecipe} from "../pages/AddRecipe/AddRecipe"
+import {defaultRecipe,defaultRecipe2} from "../pages/AddRecipe/AddRecipe"
 import axios from 'axios';
 
 const WriteToDBComponent = ()=>{

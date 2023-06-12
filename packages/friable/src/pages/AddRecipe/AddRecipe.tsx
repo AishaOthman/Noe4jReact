@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import AddNewRecipeForm from '../../components/addNewRecipeForm';
 import WriteToDBComponent from '../../components/WriteToDBComponent'
+import SearchComponent from '../../components/SearchComponent'
 import { IRecipe } from 'shared_data';
 
 const AddRecipe=()=> {
@@ -12,6 +13,7 @@ const AddRecipe=()=> {
       <Link to="/Login"> to Login</Link>
       <AddNewRecipeForm />
       <WriteToDBComponent/>
+      <SearchComponent/>
     </div>
   )
 }
