@@ -2,6 +2,8 @@
   "name": "frible",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
+  
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
@@ -23,6 +25,7 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.10",
+   
     "web-vitals": "^2.1.0"
   },
   "scripts": {
