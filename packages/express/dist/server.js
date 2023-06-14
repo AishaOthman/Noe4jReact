@@ -151,3 +151,48 @@ app.post("/neo4j/recipe", body_parser_1.default.json(), (req, res) => __awaiter(
     const writeResult = yield addRecipe(driver, recipe);
     res.json({ writeResult });
 }));
+app.get('/neo4j/recipes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { ingredients } = req.query;
+    if (!Array.isArray(ingredients) || ingredients.some(ingredient => typeof ingredient !== 'string')) {
+        return res.status(400).json({ error: 'Invalid ingredients.' });
+    }
+    const session = driver.session();
+    const query = `
+    MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
+    WHERE i.name IN $ingredients
+    WITH r, COLLECT({name: i.name, amount: rel.amount}) as recipeIngredients, COUNT(i) as count
+    WHERE count >= $ingredientCount
+    RETURN DISTINCT r as recipe, recipeIngredients
+`;
+    try {
+        const result = yield session.run(query, { ingredients, ingredientCount: ingredients.length });
+        const recipes = result.records.map(record => (Object.assign(Object.assign({}, record.get('recipe').properties), { ingredients: record.get('recipeIngredients') })));
+        res.json(recipes);
+    }
+    catch (error) {
+        console.error('Error querying database', error);
+        res.status(500).json({ error: 'Server error.' });
+    }
+    finally {
+        session.close();
+    }
+}));
+app.get('/neo4j/ingredients', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const session = driver.session();
+    const query = `
+    MATCH (i:Ingredient)
+    RETURN i
+  `;
+    try {
+        const result = yield session.run(query);
+        const ingredients = result.records.map(record => record.get('i').properties);
+        res.json(ingredients);
+    }
+    catch (error) {
+        console.error('Error querying database', error);
+        res.status(500).json({ error: 'Server error.' });
+    }
+    finally {
+        session.close();
+    }
+}));
