@@ -11,15 +11,35 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Results from './pages/Results/Results';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import SingUP from './pages/SingUp/SingUP';
 import AddRecipe from './pages/AddRecipe/AddRecipe';
 import ListOfIngredients from './pages/ListOfIngredients/ListOfIngredients';
 import RecipeDetails from './pages/RecipeDetails/RecipeDetails';
-import Registration from './pages/Registration/Registration';
+
 import UserCookBook from './pages/UserCookBook/UserCookBook';
 import RecipeSelectBar from './components/RecipeSelectBar';
+import RecipeIngRow from './components/RecipeIngRow';
+import { IRecipe,IIngredient } from 'shared_data';
 // import AppBar from '@mui/material';
 
 function App() {
+  const recipe: IRecipe = {
+    recipeName: 'Example Recipe',
+    authorName: 'John Doe',
+    prepTime: 30,
+    cookTime: 60,
+    category: 'Main Course',
+    dietType: 'Vegetarian',
+    ratings: 4,
+    skilLevel: 'Intermediate',
+    dishType: 'Baked',
+    serves: 4,
+    ingredients: [
+      { name: 'Ingredient 1', amount: '1 cup' },
+      { name: 'Ingredient 2', amount: '2 tsp' },
+    ],
+    instructions: [' Do something', ' Do something else'],
+  };
   // return (
   //   <Results/>
   // );
@@ -30,12 +50,14 @@ function App() {
         <Route path= "/"  element={<Results/>} />
         <Route path ="/Home" element={<Home/>}/>
         <Route path ="/Login" element={<Login/>}/>
-        <Route path ="/AddRecipe" element={<AddRecipe/>}/>
+        <Route path ="/SingUp" element={<SingUP/>}/>
+        <Route path ="/AddRecipe" element={<AddRecipe />}/>
+        {/* <Route path ="/AddRecipe" element={<AddRecipe ingredientsList={[]}/>}/> */}
         <Route path ="/ListOfIngredients" element={<ListOfIngredients/>}/>
-        <Route path= "/RecipeDetails"  element={<RecipeDetails/>} />
-        <Route path ="/Registration" element={<Registration/>}/>
+        <Route path= "/RecipeDetails"  element={<RecipeDetails recipe={recipe} />} />
         <Route path ="/UserCookBook" element={<UserCookBook/>}/>
         <Route path ="/RecipeSelectBar" element={<RecipeSelectBar/>}/>
+        <Route path ="/RecipeIngRow" element={<RecipeIngRow/>}/>
       </Routes>
     </BrowserRouter>);
   //   <div className='App'>

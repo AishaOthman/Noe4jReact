@@ -1,10 +1,10 @@
 import { Autocomplete, TextField, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { ingredient, IRecipe } from "shared_data";
+import { IIngredient, IRecipe } from "shared_data";
 
 const SearchComponent = ()=>{
-    const [ingredients,setIngredients] = React.useState<ingredient[]>([])
+    const [ingredients,setIngredients] = React.useState<IIngredient[]>([])
     const [searchValue,setSearchValue] = React.useState<string[]|null>(null)
     const [recipes,setRecipes] = React.useState<IRecipe[]>([]);
     useEffect(()=>{

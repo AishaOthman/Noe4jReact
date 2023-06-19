@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material"
 import { IRecipe } from "shared_data"
-import {defaultRecipe,defaultRecipe2} from "../pages/AddRecipe/AddRecipe"
+//import {defaultRecipe,defaultRecipe2} from "../pages/AddRecipe/AddRecipe"
 import axios from 'axios';
 
 const WriteToDBComponent = ()=>{
@@ -17,9 +17,10 @@ const WriteToDBComponent = ()=>{
       <Box sx={{m:2, p: 2, border: '1px dashed grey' }}>
        
         <h3>by clicking on the button you will write to your neo4j db the defaultRecipe, you can change in the code to defaultRecipe2 to see how it saves another</h3>
-        <Button onClick={()=>{
-            writeRecipeToServer(defaultRecipe);
-        }}>
+        <Button //onClick={()=>{
+           // writeRecipeToServer(defaultRecipe);
+      //  }}
+      >
           post defaultRecipe to server
           </Button>
        
