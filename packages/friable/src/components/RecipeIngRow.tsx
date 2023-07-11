@@ -16,6 +16,7 @@ const RecipeIngRow = () => {
       try{
         const serverIngredientsResponse = await axios.get('/neo4j/ingredients');
         setIngredients(serverIngredientsResponse.data)
+        console.log(serverIngredientsResponse.data)
       }catch(err){
         console.log(err)
       }

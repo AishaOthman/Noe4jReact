@@ -101,28 +101,28 @@ interface Ingredient{
   value:number;
   // other properties...
 }
-const Ingredients:Ingredient[] = [
-  { title: "Salt", value: 1 },
-  { title: "Pepper", value: 2 },
-  { title: "Garlic", value: 3 },
-  { title: "Onion", value: 4 },
-  { title: "Olive oil", value: 5 },
-  { title: "Butter", value: 6 },
-  { title: "Sugar", value: 7 },
-  { title: "Flour", value: 8 },
-  { title: "Eggs", value: 9 },
-  { title: "Milk", value: 10 },
-  { title: "Tomato", value: 11 },
-  { title: "Lemon", value: 12 },
-  { title: "Basil", value: 13 },
-  { title: "Thyme", value: 14 },
-  { title: "Rosemary", value: 15 },
-  { title: "Parsley", value: 16 },
-  { title: "Cinnamon", value: 17 },
-  { title: "Ginger", value: 18 },
-  { title: "Vanilla extract", value: 19 },
-  { title: "Honey", value: 20 }
-];
+// const Ingredients:Ingredient[] = [
+//   { title: "Salt", value: 1 },
+//   { title: "Pepper", value: 2 },
+//   { title: "Garlic", value: 3 },
+//   { title: "Onion", value: 4 },
+//   { title: "Olive oil", value: 5 },
+//   { title: "Butter", value: 6 },
+//   { title: "Sugar", value: 7 },
+//   { title: "Flour", value: 8 },
+//   { title: "Eggs", value: 9 },
+//   { title: "Milk", value: 10 },
+//   { title: "Tomato", value: 11 },
+//   { title: "Lemon", value: 12 },
+//   { title: "Basil", value: 13 },
+//   { title: "Thyme", value: 14 },
+//   { title: "Rosemary", value: 15 },
+//   { title: "Parsley", value: 16 },
+//   { title: "Cinnamon", value: 17 },
+//   { title: "Ginger", value: 18 },
+//   { title: "Vanilla extract", value: 19 },
+//   { title: "Honey", value: 20 }
+// ];
 
   export const RecipeContext = createContext<{
     recipe: IRecipe;

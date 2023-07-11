@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppBar, Toolbar } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -43,6 +44,23 @@ export default function SignUp() {
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+       < AppBar position="static">
+        <Toolbar>
+         
+          <Typography variant="h6" sx={{ flexGrow: 1 }} >
+          Welcom To FriAble <br/><h6>Food recipes app</h6>
+          </Typography>
+        
+          <Box sx={{ marginLeft: 'auto' }}>
+        <Link color="inherit" href="/">Home</Link>
+        <Box sx={{ marginLeft: 2, display: 'inline' }} />
+        <Link color="inherit" href="/Login">Login</Link>
+     
+      </Box>
+          
+          
+        </Toolbar>
+      </AppBar>
         <Box
           sx={{
             marginTop: 8,

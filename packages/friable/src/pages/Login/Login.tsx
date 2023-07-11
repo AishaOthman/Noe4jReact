@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppBar, Toolbar } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -42,6 +43,23 @@ export default function SignInSide() {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
+        < AppBar position="static">
+        <Toolbar>
+         
+          <Typography variant="h6" sx={{ flexGrow: 1 }} >
+          Welcom To FriAble <br/><h6>Food recipes app</h6>
+          </Typography>
+        
+          <Box sx={{ marginLeft: 'auto' }}>
+        <Link color="inherit" href="/">Home</Link>
+        <Box sx={{ marginLeft: 2, display: 'inline' }} />
+        <Link color="inherit" href="/SingUp">SingUp</Link>
+     
+      </Box>
+          
+          
+        </Toolbar>
+      </AppBar>
         <Grid
           item
           xs={false}
@@ -72,7 +90,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+             Log in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -100,6 +118,7 @@ export default function SignInSide() {
                 label="Remember me"
               />
               <Button
+              href="/Home1"
                 type="submit"
                 fullWidth
                 variant="contained"

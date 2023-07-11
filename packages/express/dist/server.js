@@ -92,17 +92,17 @@ const addRecipe = (driver, recipe) => __awaiter(void 0, void 0, void 0, function
             .filter(prop => recipe[prop])
             .map(prop => {
             const query = `MERGE (a:${prop.charAt(0).toUpperCase() + prop.slice(1)} {name: $value})
-        RETURN a as node
-        `;
+                RETURN a as node
+                `;
             // console.log(prop, query)
             return transaction.run(query, { value: recipe[prop] });
         });
         // Create or find the nodes for ingredients
         const createOrFindIngredientNodes = recipe.ingredients.map((ingredient) => {
             const query = `
-        MERGE (b:Ingredient {name: $name})
-        RETURN b as node
-      `;
+                MERGE (b:Ingredient {name: $name})
+                RETURN b as node
+              `;
             // console.log(ingredient, query)
             return transaction.run(query, { name: ingredient.name });
         });
@@ -110,9 +110,9 @@ const addRecipe = (driver, recipe) => __awaiter(void 0, void 0, void 0, function
         const nodes = yield Promise.all([...createOrFindNodes, ...createOrFindIngredientNodes]);
         // Create the recipe node
         const recipeNode = yield transaction.run(`
-        CREATE (r:Recipe $props)
-        RETURN r
-      `, { props: (0, lodash_1.omit)(recipe, 'ingredients') });
+                CREATE (r:Recipe $props)
+                RETURN r
+              `, { props: (0, lodash_1.omit)(recipe, 'ingredients') });
         // Connect the recipe to the nodes with a RELATES_TO edge
         for (let node of nodes) {
             const recordNode = node.records[0].get('node');
@@ -120,18 +120,18 @@ const addRecipe = (driver, recipe) => __awaiter(void 0, void 0, void 0, function
             if (recordNode.labels.includes('Ingredient')) {
                 const ingredientIndex = recipe.ingredients.findIndex(ingredient => ingredient.name === recordNode.properties.name);
                 yield transaction.run(`
-          MATCH (r:Recipe {recipeName: $recipeName}), (i:Ingredient {name: $name})
-          CREATE (r)-[:IS_IN {amount: $amount}]->(i)
-          CREATE (i)-[:CONTAINS]->(r)
-        `, { recipeName: recipe.recipeName, name: recipe.ingredients[ingredientIndex].name, amount: recipe.ingredients[ingredientIndex].amount });
+                  MATCH (r:Recipe {recipeName: $recipeName}), (i:Ingredient {name: $name})
+                  CREATE (r)-[:IS_IN {amount: $amount}]->(i)
+                  CREATE (i)-[:CONTAINS]->(r)
+                `, { recipeName: recipe.recipeName, name: recipe.ingredients[ingredientIndex].name, amount: recipe.ingredients[ingredientIndex].amount });
             }
             else {
                 result = yield transaction.run(`
-          MATCH (r:Recipe {recipeName: $recipeName}), (node)
-          WHERE id(node) = $id
-          CREATE (r)-[:RELATES_TO]->(node)
-          return (r)
-        `, { recipeName: recipe.recipeName, id: recordNode.identity.low });
+                  MATCH (r:Recipe {recipeName: $recipeName}), (node)
+                  WHERE id(node) = $id
+                  CREATE (r)-[:RELATES_TO]->(node)
+                  return (r)
+                `, { recipeName: recipe.recipeName, id: recordNode.identity.low });
             }
         }
         // Commit the transaction

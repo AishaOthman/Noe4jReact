@@ -13,6 +13,7 @@ const WriteToDBComponent = ()=>{
       }
      
     }
+    
     return <div>
       <Box sx={{m:2, p: 2, border: '1px dashed grey' }}>
        
