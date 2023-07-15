@@ -257,7 +257,7 @@ const RecipeDetailsPage: React.FC<RecipeDetailsPageProps> = () => {
   useEffect(() => {
     const fetchRecipeDetails = async () => {
       try {
-        const response = await axios.get<IRecipe>(`/recipes/${id}`); // Replace with your API endpoint to fetch recipe details
+        const response = await axios.get<IRecipe>(`/recipes/${id}`); 
         setRecipe(response.data);
       } catch (error) {
         console.log(error);

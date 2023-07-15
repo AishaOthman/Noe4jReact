@@ -1,12 +1,57 @@
 
 import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { IRecipe, IIngredient }from 'shared_data';
-import { TextField,AppBar,Grid,Link,Toolbar,Typography, Button, MenuItem, Container, Box } from '@mui/material';
+import { IRecipe, IIngredient}from 'shared_data';
+import { TextField,AppBar,Grid,Link,Toolbar,Typography, Button, MenuItem, Container, Box, Autocomplete } from '@mui/material';
 import axios from 'axios';
 import Footer from '../../components/footer';
-import foodIngredients from '../../components/ingredientsArray'
+import { TextareaAutosize } from '@material-ui/core';
 
+export const RecipeCategories=[
+  "Appetizers and Snacks" ,
+"Soups and Stews",
+"Salads and Dressings",
+"Main Courses",
+"Side Dishes",
+"Desserts",
+"Baking and Pastries",
+"Breakfast and Brunch",
+"Smoothies and Juices",
+"Beverages",
+"Other"
+]
+export const skilLevel=[
+  "Easy",
+  "Medium",
+  "Hard",
+  "Beginner",
+  "Novice",
+  "Intermediate",
+  "Experienced",
+  "Advanced",
+  "Simple",
+  "Moderate",
+  "Challenging",
+  "Complex",
+  "Expert"
+]
+
+ export const DietTypes = [
+  "Vegetarian" ,
+"Vegan",
+"nut-Free",
+"low-sodium", 
+"low-sugar",
+"Gluten-Free",
+"Dairy-Free",
+"Paleo",
+"Keto",
+"Low-Carb",
+"Mediterranean",
+"Whole30",
+"Pescatarian",
+"Other"
+]
 interface Props {
   ingredientsList: IIngredient[];
 }
@@ -78,16 +123,10 @@ const AddRecipe: React.FC= () => {
       ...data,
       instructions: instructions.filter((instruction) => instruction.trim() !== ''), // Exclude empty instructions
     };
-
+    writeRecipeToServer(recipeWithInstructions);
     console.log(recipeWithInstructions);
   };
-  // const onSubmit = (data: IRecipe) => {
-
-    
-  //   // Include the instructions in the form data
-  //   console.log({ ...data, instructions });
-  // };
-
+  
   return (
     
     <Container component="main" /*maxWidth="xs"*/>
@@ -122,32 +161,83 @@ const AddRecipe: React.FC= () => {
           <Container maxWidth="xs">
           <form onSubmit={handleSubmit(onSubmit)}>
         <TextField fullWidth margin="normal" label="Recipe Name" {...register('recipeName',{ required: true })} />
-        {/* <TextField fullWidth margin="normal" label="authorName" {...register('authorName')} /> */}
-        <TextField fullWidth margin="normal" label="prepTime" {...register('prepTime')} />
-        <TextField fullWidth margin="normal" label="cookTime" {...register('cookTime')} />
-        <TextField fullWidth margin="normal" label="category" {...register('category',{ required: true })} />
-        <TextField fullWidth margin="normal" label="dietType" {...register('dietType')} />
+        <TextareaAutosize
+          minRows={3}
+          placeholder="Description"
+          style={{ width: '100%', marginBottom: '1rem', resize: 'none' }}
+          {...register('description')}
+        />
+        <TextField fullWidth margin="normal" label="Author Name" {...register('authorName')} />
+        <TextField fullWidth margin="normal" label="prep Time" {...register('prepTime')} />
+        <TextField fullWidth margin="normal" label="cook Time" {...register('cookTime')} />
+        <TextField
+          select
+          fullWidth
+          margin="normal"
+          label="Category"
+          {...register('category', { required: true })}
+        >
+          {RecipeCategories.map((category) => (
+            <MenuItem key={category} value={category}>
+              {category}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          fullWidth
+          margin="normal"
+          label="Diet Type"
+          {...register('dietType')}
+        >
+          {DietTypes.map((diet) => (
+            <MenuItem key={diet} value={diet}>
+              {diet}
+            </MenuItem>
+          ))}
+        </TextField>
+        {/* <TextField fullWidth margin="normal" label="category" {...register('category',{ required: true })} /> */}
+        {/* <TextField fullWidth margin="normal" label="dietType" {...register('dietType')} /> */}
+
+
+
         {/* <TextField fullWidth margin="normal" label="ratings" {...register('ratings')} /> */}
-        <TextField fullWidth margin="normal" label="skilLevel" {...register('skilLevel')} />
-        <TextField fullWidth margin="normal" label="dishType" {...register('dishType')} />
-        <TextField fullWidth margin="normal" label="serves" {...register('serves')} />
+        {/* <TextField fullWidth margin="normal" label="Skil Level" {...register('skilLevel')} /> */}
+        <TextField
+          select
+          fullWidth
+          margin="normal"
+          label="Skil Level"
+          {...register('skilLevel')}
+        >
+          {skilLevel.map((level) => (
+            <MenuItem key={level} value={level}>
+              {level}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField fullWidth margin="normal" label="Serves" {...register('serves')} />
         
   
         {ingredientsFields.map((item, index) => (
           <Box key={item.id} >
-            <TextField
-              select
-              fullWidth
-              margin="normal"
-              label="Ingredient"
-              {...register(`ingredients.${index}.name` as const,{ required: true })}
-            >
-              {ingredients.map((ingredient) => (
-                <MenuItem key={ingredient.name} value={ingredient.name}>
-                  {ingredient.name}
-                </MenuItem>
-              ))}
-            </TextField>
+            
+            <Autocomplete
+            freeSolo
+              options={ingredients.map((ingredient) => ingredient.name)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  margin="normal"
+                  label="Ingredient"
+                  {...register(`ingredients.${index}.name` as const, { required: true })}
+                />
+              )}
+            />
+            
             <TextField
               fullWidth
               margin="normal"
@@ -211,6 +301,8 @@ export default AddRecipe
 
 ///////////////////////////////////////////////////WriteToDBComponent/////////////////////////////////////////////////////////////////////////////////////
 {/*
+
+
 import { Box, Button } from "@mui/material"
 import { IRecipe } from "shared_data"
 //import {defaultRecipe,defaultRecipe2} from "../pages/AddRecipe/AddRecipe"
@@ -234,4 +326,39 @@ const WriteToDBComponent = ()=>{
     </div>
    }
    export default WriteToDBComponent;
-*/}
+
+ const Recipe-Categories=["Appetizers and Snacks" ,
+"Soups and Stews",
+"Salads and Dressings",
+"Main Courses",
+"Side Dishes",
+"Desserts",
+"Baking and Pastries",
+"Breakfast and Brunch",
+"Smoothies and Juices",
+"Beverages",
+"Other"
+]
+
+
+const Diet-Types=["Vegetarian" ,
+"Vegan",
+"nut-Free",
+"low-sodium", 
+"low-sugar",
+"Gluten-Free",
+"Dairy-Free",
+"Paleo",
+"Keto",
+"Low-Carb",
+"Mediterranean",
+"Whole30",
+"Pescatarian",
+"Other"
+]
+
+
+
+*/
+
+}

@@ -39,7 +39,7 @@ export default function Footer(props: { content: any; }) {
   const classes = useStyles();
 
   const content = {
-    'brand': { image: '-assets/img/nereus-light.png', width: 110 },
+    'brand': { image: '', width: 110 },
     'copy': '© 2020 FRIABLE All rights reserved.',
     'link1': 'Contact Us',
     'link2': 'Home',

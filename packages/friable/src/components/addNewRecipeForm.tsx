@@ -96,6 +96,7 @@ import RecipeSelectBar from './RecipeSelectBar';
 //import RecipeInstruction from './RecipeInstruction';
 import { IRecipe } from 'shared_data';
 
+
 interface Ingredient{
   title: string;
   value:number;
@@ -137,7 +138,6 @@ interface Ingredient{
         dietType: "",
         ratings: 0,
         skilLevel: "",
-        dishType: "",
         serves: 0,
         ingredients: [],
         instructions: [""],
@@ -160,7 +160,6 @@ const AddNewRecipeForm = () => {
     dietType: "",
     ratings: 0,
     skilLevel: "",
-    dishType: "",
     serves: 0,
     ingredients: [],
     instructions: [""],

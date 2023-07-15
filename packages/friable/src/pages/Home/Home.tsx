@@ -1,11 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { Autocomplete, TextField, Button, Box, AppBar, Toolbar,Link, Typography } from "@mui/material";
+import React, { useState, useEffect, useContext } from 'react';
+import { Autocomplete, TextField, Button, Box, AppBar, Toolbar,Link, Typography, MenuItem } from "@mui/material";
 import Footer from "../../components/footer";
 import { makeStyles } from '@material-ui/core/styles';
 import { IIngredient,IRecipe } from 'shared_data';
 import axios from 'axios';
-import ResultCard from '../../components/ResultCard';
+import { RecipeContext } from '../../components/RecipeContext';
+import { useNavigate }  from 'react-router-dom';
 
+
+export const RecipeCategories=[
+  "Appetizers and Snacks" ,
+"Soups and Stews",
+"Salads and Dressings",
+"Main Courses",
+"Side Dishes",
+"Desserts",
+"Baking and Pastries",
+"Breakfast and Brunch",
+"Smoothies and Juices",
+"Beverages",
+"Other"
+]
+const Ratings=[1,2,3,4,5]
+
+export const skilLevel=[
+  "Easy",
+  "Medium",
+  "Hard",
+  "Beginner",
+  "Novice",
+  "Intermediate",
+  "Experienced",
+  "Advanced",
+  "Simple",
+  "Moderate",
+  "Challenging",
+  "Complex",
+  "Expert"
+]
+ export const DietTypes = [
+  "Vegetarian" ,
+"Vegan",
+"nut-Free",
+"low-sodium", 
+"low-sugar",
+"Gluten-Free",
+"Dairy-Free",
+"Paleo",
+"Keto",
+"Low-Carb",
+"Mediterranean",
+"Whole30",
+"Pescatarian",
+"Other"
+]
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: theme.spacing(2),
-    height: '40vh',
+    height: '30vh',
   },
   Autocomplete:{
     width:'30%',
@@ -29,13 +77,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: theme.spacing(2),
-    height: '40vh',
+    height: '30vh',
   },
   Results:{
+    padding: theme.spacing(6),
     hight:'60%',
   },
   footer :{
     marginBottom:'marginBottom',
+    marginTop: 'auto'
     
   },
   
@@ -52,12 +102,24 @@ const Home: React.FC = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [filters, setFilters] = useState({
     name: '',
+    authorName:'',
     dietType: '',
-    dishType: '',
+    category: '',
+    skilLevel:'',
+    ratings:'',
   });
   const [searchValue,setSearchValue] = React.useState<string[]|null>(null)
   const [recipes,setRecipes] = React.useState<IRecipe[]>([]);
- 
+  
+  const { setSelectedRecipe } = useContext(RecipeContext);
+  const navigate = useNavigate();
+
+  const handleRecipeClick = (recipe: IRecipe) => {
+    setSelectedRecipe(recipe);
+    
+    console.log(recipe.recipeName)
+    navigate('/RecipeDetailsPage'); // Replace '/recipe-details' with the actual URL of your RecipeDetailsPage
+  };
  
   useEffect(()=>{
     async function getNeo4jIngredients() {
@@ -73,18 +135,20 @@ const Home: React.FC = () => {
 
 
   const searchRecipesByIngredients = async ()=>{
-  
+ 
     try{
         const serverResponse = await axios.get('/neo4j/recipes',{params:{
          ingredients:searchValue
         }});
         setRecipes(serverResponse.data)
+        console.log(serverResponse.data)
+        if (serverResponse.data.length>0){
+          setResult(true);
+        };
     }catch(error){
       console.log(error)
     }
-    if (recipes.length>0){
-      setResult(true);
-    };
+  
   }
 /////////////////////////////SearchComponent/////////////////////////////////////////////////////////
 {/**
@@ -133,6 +197,10 @@ const SearchComponent = ()=>{
     setSelectedIngredients(value);
   };
 
+  // const handleRecipeClick = (recipe: IRecipe) => {
+  //   setSelectedRecipe(recipe);
+  //   history.push('/recipe-details'); // Navigate to RecipeDetailsPage
+  // };
   
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,9 +211,21 @@ const SearchComponent = ()=>{
   };
 
   const handleSearchByFilters = async () => {
-    // const results = await searchRecipesByFilters(filters); // Replace with your API call to search recipes by filters
-    // setSearchResults(results);
+    try {
+      const response = await axios.get('/neo4j/recipes', { params: filters });
+      const recipes = response.data;
+      setRecipes(recipes);
+      setResult(recipes.length > 0);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
+  // const handleSearchByFilters = async () => {
+    
+  //   // const results = await searchRecipesByFilters(filters); 
+  //   // setSearchResults(results);
+  // };
 
 
     return (
@@ -153,11 +233,14 @@ const SearchComponent = ()=>{
       
         <Box sx={{ flexGrow: 1 }} marginTop={3} marginBottom={0}>
           <AppBar position="static">
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1 }} >
-              Welcom To FriAble <br/><h5>Food recipes app</h5>
+            <Toolbar><Box><Typography variant="h5" sx={{ flexGrow: 1 }} >
+              Welcom To FriAble 
               </Typography>
-          
+              <Typography variant="caption"sx={{ flexGrow: 1 }}>
+              Food recipes app
+             </Typography>
+          </Box>
+              
                 <Box sx={{ marginLeft: 'auto' }}>
                 <Link color="inherit" href="/Login">Login</Link>
               <Box sx={{ marginLeft: 2, display: 'inline' }} />
@@ -169,7 +252,6 @@ const SearchComponent = ()=>{
         
               <Autocomplete
               multiple
-              id="combo-box-demo"
               options={ingredients.map(i=>i.name)}
               onChange={(event: any, newValue: string[] | null) => {
                 console.log({newValue})
@@ -191,34 +273,76 @@ const SearchComponent = ()=>{
               value={filters.name}
               onChange={handleFilterChange}
             />
+          
+                <TextField
+              name="author"
+              label="Author Name"
+              variant="outlined"
+              value={filters.authorName}
+              onChange={handleFilterChange}
+            />
             <TextField
+            select
+              name="category"
+              label="Category"
+              variant="outlined"
+            //  variant="outlined"
+              value={filters.category}
+              onChange={handleFilterChange}
+              sx={{ width: 250 }}>
+ {RecipeCategories.map((category) => (
+            <MenuItem key={category} value={category}>
+              {category}
+            </MenuItem>
+          ))}
+              </TextField>
+          
+              <TextField
+              select
               name="dietType"
               label="Diet Type"
               variant="outlined"
+             // variant="outlined"
               value={filters.dietType}
               onChange={handleFilterChange}
-            />
+              sx={{ width: 250 }}
+            >
+                  {DietTypes.map((diet) => (
+            <MenuItem key={diet} value={diet}>
+              {diet}
+            </MenuItem>
+          ))}
+            </TextField>
             <TextField
-              name="dishType"
-              label="Dish Type"
+              select
+              name="skilLevel"
+              label="Skil leve"
               variant="outlined"
-              value={filters.dishType}
+              value={filters.skilLevel}
               onChange={handleFilterChange}
-            />
+              sx={{ width: 250 }}>
+     {skilLevel.map((leve) => (
+            <MenuItem key={leve} value={leve}>
+              {leve}
+            </MenuItem>
+          ))}
+              </TextField>
               <TextField
+              select
               name="ratings"
               label="Ratings"
               variant="outlined"
-              value={filters.dishType}
+              value={filters.ratings}
               onChange={handleFilterChange}
-            />
-              <TextField
-              name="skilLevel"
-              label="Skil Level"
-              variant="outlined"
-              value={filters.dishType}
-              onChange={handleFilterChange}
-            />
+              sx={{ width: 250 }}>
+     {Ratings.map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+              </TextField>
+        
+    
             
             <Button variant="contained" color="primary" onClick={handleSearchByFilters}>
             Search By Filters
@@ -226,7 +350,7 @@ const SearchComponent = ()=>{
        
       
       </div> 
-     {Result && <div >
+     {Result && <div className={classes.Results} >
       <Typography variant="h6" sx={{ flexGrow: 1 }} >
           Results:
               </Typography>
@@ -235,16 +359,20 @@ const SearchComponent = ()=>{
               <li key={index}>
                 <div>{recipe.recipeName}</div>
                 <div>Number of Ingredients: {recipe.ingredients.length}</div>
-                <div>Ingredients:</div>
-                <ul>
+               
+              {/*  <div>Ingredients:</div>
+                 <ul>
                   {recipe.ingredients.map((ingredient, ingredientIndex) => (
                     <li key={ingredientIndex}>
                       {ingredient.name} - {ingredient.amount}
                     </li>
                   ))}
-                </ul>
-                <Link href="/RecipeDetails">View Details</Link>
+                </ul> */}
+                
+                <Link onClick={() => handleRecipeClick(recipe)}>View Details</Link>
+                <div>--------------------------------------------------</div>
               </li>
+              
             ))}
           </ul>
         
@@ -260,6 +388,6 @@ const SearchComponent = ()=>{
 export default Home;
 
 
-function searchRecipesByFilters(filters: { name: string; dietType: string; dishType: string; }) {
-  throw new Error('Function not implemented.');
-}
+// function searchRecipesByFilters(filters: { name: string; dietType: string; dishType: string; }) {
+//   throw new Error('Function not implemented.');
+// }

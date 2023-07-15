@@ -157,20 +157,37 @@ app.get('/neo4j/recipes', async (req, res) => {
   if (!Array.isArray(ingredients) || ingredients.some(ingredient => typeof ingredient !== 'string')) {
     return res.status(400).json({ error: 'Invalid ingredients.' });
   }
+  {/**
 
+MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
+WHERE i.name IN=='Cottage cheese'
+WITH r, COLLECT({name: i.name, amount: rel.amount}) as queriedIngredients, COUNT(i) as count
+WHERE count >= $ingredientCount
+MATCH (r)-[relAll:IS_IN]->(iAll:Ingredient)
+WITH r, queriedIngredients, COLLECT({name: iAll.name, amount: relAll.amount}) as allIngredients
+RETURN DISTINCT r as recipe, queriedIngredients, allIngredients
 
-  const session = driver.session();
-  const query = `
-    MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
+MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
     WHERE i.name IN $ingredients
     WITH r, COLLECT({name: i.name, amount: rel.amount}) as recipeIngredients, COUNT(i) as count
     WHERE count >= $ingredientCount
     RETURN DISTINCT r as recipe, recipeIngredients
+*/}
+
+  const session = driver.session();
+  const query = `
+  MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
+  WHERE i.name IN $ingredients
+  WITH r, COLLECT({name: i.name, amount: rel.amount}) as queriedIngredients, COUNT(i) as count
+  WHERE count >= $ingredientCount
+  MATCH (r)-[relAll:IS_IN]->(iAll:Ingredient)
+  WITH r, queriedIngredients, COLLECT({name: iAll.name, amount: relAll.amount}) as allIngredients
+  RETURN DISTINCT r as recipe, queriedIngredients, allIngredients
 `;
  
   try {
     const result = await session.run(query, { ingredients, ingredientCount: ingredients.length  });
-    const recipes = result.records.map(record => ({ ...record.get('recipe').properties, ingredients: record.get('recipeIngredients') }));
+    const recipes = result.records.map(record => ({ ...record.get('recipe').properties, ingredients: record.get('allIngredients') }));
 
 
     res.json(recipes);

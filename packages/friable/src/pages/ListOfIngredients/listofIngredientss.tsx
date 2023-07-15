@@ -16,7 +16,9 @@ import { AppBar, FormGroup, Toolbar } from '@mui/material';
 
 
 const defaultTheme = createTheme();
-const ListOfIngredientss = ()=>{
+
+
+  const ListOfIngredientss = ()=>{
   return (
     <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="md">
