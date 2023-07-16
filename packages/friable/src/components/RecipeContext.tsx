@@ -1,4 +1,4 @@
-import React, { useContext,createContext } from 'react'
+import { useContext,createContext } from 'react'
 
 import { IRecipe } from 'shared_data';
 
@@ -14,3 +14,8 @@ export const RecipeContext = createContext<IRecipeContext>({
 
 
 export const useRecipeContext = () => useContext(RecipeContext);
+{/*
+const [recipe,setRecipe] = useState(null);
+...
+<RecipeContext.Provider value={{ selectedRecipe: recipe, setSelectedRecipe: setRecipe }}>
+*/}

@@ -13,12 +13,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppBar, Toolbar } from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../config/firebase';
+import logging from '../../config/logging';
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="/Home">
         FRIABLE
       </Link>{' '}
       {new Date().getFullYear()}
@@ -30,6 +34,31 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInSide() {
+  
+  const [authenticating, setAuthenticating] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  
+  const navigate = useNavigate();
+
+  const signInWithEmailAndPassword = () => {
+    if (error !== '') setError('');
+
+    setAuthenticating(true);
+
+    auth.signInWithEmailAndPassword(email, password)
+    .then(result => {
+        logging.info(result);
+        navigate('/');
+    })
+    .catch(error => {
+        logging.error(error);
+        setAuthenticating(false);
+        setError(error.message);
+    });
+}
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -46,9 +75,14 @@ export default function SignInSide() {
         < AppBar position="static">
         <Toolbar>
          
-          <Typography variant="h6" sx={{ flexGrow: 1 }} >
-          Welcom To FriAble <br/><h6>Food recipes app</h6>
-          </Typography>
+        <Box><Typography variant="h5" sx={{ flexGrow: 1 }} >
+              Welcom To FriAble 
+              </Typography>
+              <Typography variant="caption"sx={{ flexGrow: 1 }}>
+              Food recipes app
+             </Typography>
+          </Box>
+          
         
           <Box sx={{ marginLeft: 'auto' }}>
         <Link color="inherit" href="/">Home</Link>
@@ -92,7 +126,7 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
              Log in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate  sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -128,7 +162,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/ForgetPassword" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
@@ -136,6 +170,11 @@ export default function SignInSide() {
                   <Link href="./SingUP" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
+                  {error && (
+            <Typography variant="body2" color="error" align="center" sx={{ mt: 2 }}>
+              {error}
+            </Typography>
+          )}
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

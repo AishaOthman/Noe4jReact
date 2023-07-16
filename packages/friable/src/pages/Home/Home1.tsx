@@ -106,9 +106,14 @@ const Home: React.FC = () => {
             <AppBar position="static">
                  <Toolbar>
                       {/*'Add New Recipe', 'My Recipes', 'my Ingredients List','logout', */}
-                        <Typography variant="h6" sx={{ flexGrow: 1 }} >
-                        Welcom To FriAble <br/><h5>Food recipes app</h5>
-                        </Typography>
+                      <Box><Typography variant="h5" sx={{ flexGrow: 1 }} >
+              Welcom To FriAble 
+              </Typography>
+              <Typography variant="caption"sx={{ flexGrow: 1 }}>
+              Food recipes app
+             </Typography>
+          </Box>
+          
                         <Typography  component="h5" >
                         Welcom Aisha 
                         </Typography>

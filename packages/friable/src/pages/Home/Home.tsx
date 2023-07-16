@@ -110,16 +110,11 @@ const Home: React.FC = () => {
   });
   const [searchValue,setSearchValue] = React.useState<string[]|null>(null)
   const [recipes,setRecipes] = React.useState<IRecipe[]>([]);
-  
+  const [recipe,setRecipe] = React.useState<IRecipe>();
   const { setSelectedRecipe } = useContext(RecipeContext);
   const navigate = useNavigate();
 
-  const handleRecipeClick = (recipe: IRecipe) => {
-    setSelectedRecipe(recipe);
-    
-    console.log(recipe.recipeName)
-    navigate('/RecipeDetailsPage'); // Replace '/recipe-details' with the actual URL of your RecipeDetailsPage
-  };
+
  
   useEffect(()=>{
     async function getNeo4jIngredients() {
@@ -150,57 +145,20 @@ const Home: React.FC = () => {
     }
   
   }
-/////////////////////////////SearchComponent/////////////////////////////////////////////////////////
-{/**
-import { Autocomplete, TextField, Button } from "@mui/material";
-import axios from "axios";
-import React, { useEffect } from "react";
-import { IIngredient, IRecipe } from "shared_data";
 
-const SearchComponent = ()=>{
+  const handleRecipeClick = (recipe: IRecipe) => {
+    setSelectedRecipe(recipe);
     
- 
-    return <div>
-        <Autocomplete
-          multiple
-          id="combo-box-demo"
-          options={ingredients.map(i=>i.name)}
-          onChange={(event: any, newValue: string[] | null) => {
-            console.log({newValue})
-            setSearchValue(newValue);
-          }}
-          sx={{ width: 300 }}
-          renderInput={(params:any) => <TextField {...params} label="ingredients" />}
-        />
-        <Button disabled={searchValue===null || searchValue?.length === 0} onClick={()=>{
-          searchRecipesByIngredients()
-        }} > Search with ingredients</Button>
-        <div>
-          results:
-          {recipes.map(recipe=>{
-            return <><div>
-              {recipe.recipeName}
-            </div>
-            <div>{JSON.stringify(recipe)}</div>
-            </>
-          })}
-        </div>
-    </div>
-   }
-  export default SearchComponent;
-*/}
- 
+    console.log(recipe.recipeName)
+    navigate('/RecipeDetailsPage'); 
+  };
   
-
   const handleIngredientChange = (event: React.ChangeEvent<{}>, value: string[]) => {
     
     setSelectedIngredients(value);
   };
 
-  // const handleRecipeClick = (recipe: IRecipe) => {
-  //   setSelectedRecipe(recipe);
-  //   history.push('/recipe-details'); // Navigate to RecipeDetailsPage
-  // };
+ 
   
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -221,11 +179,6 @@ const SearchComponent = ()=>{
     }
   };
   
-  // const handleSearchByFilters = async () => {
-    
-  //   // const results = await searchRecipesByFilters(filters); 
-  //   // setSearchResults(results);
-  // };
 
 
     return (
@@ -233,16 +186,20 @@ const SearchComponent = ()=>{
       
         <Box sx={{ flexGrow: 1 }} marginTop={3} marginBottom={0}>
           <AppBar position="static">
-            <Toolbar><Box><Typography variant="h5" sx={{ flexGrow: 1 }} >
-              Welcom To FriAble 
-              </Typography>
-              <Typography variant="caption"sx={{ flexGrow: 1 }}>
-              Food recipes app
-             </Typography>
-          </Box>
+            <Toolbar>
+              <Box>
+                    <Typography variant="h5" sx={{ flexGrow: 1 }} >
+                  Welcom To FriAble 
+                  </Typography>
+                    <Typography variant="caption"sx={{ flexGrow: 1 }}>
+                    Food recipes app
+                  </Typography>
+               </Box>
               
-                <Box sx={{ marginLeft: 'auto' }}>
+               <Box sx={{ marginLeft: 'auto' }}>
                 <Link color="inherit" href="/Login">Login</Link>
+                <Box sx={{ marginLeft: 2, display: 'inline' }} />
+                <Link color="inherit" href="/Logout">Logout</Link>
               <Box sx={{ marginLeft: 2, display: 'inline' }} />
                 <Link color="inherit" href="/SingUp">SingUp</Link>
               </Box>

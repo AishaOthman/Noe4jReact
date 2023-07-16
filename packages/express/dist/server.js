@@ -156,23 +156,6 @@ app.get('/neo4j/recipes', (req, res) => __awaiter(void 0, void 0, void 0, functi
     if (!Array.isArray(ingredients) || ingredients.some(ingredient => typeof ingredient !== 'string')) {
         return res.status(400).json({ error: 'Invalid ingredients.' });
     }
-    { /**
-  
-  MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
-  WHERE i.name IN=='Cottage cheese'
-  WITH r, COLLECT({name: i.name, amount: rel.amount}) as queriedIngredients, COUNT(i) as count
-  WHERE count >= $ingredientCount
-  MATCH (r)-[relAll:IS_IN]->(iAll:Ingredient)
-  WITH r, queriedIngredients, COLLECT({name: iAll.name, amount: relAll.amount}) as allIngredients
-  RETURN DISTINCT r as recipe, queriedIngredients, allIngredients
-  
-  MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
-      WHERE i.name IN $ingredients
-      WITH r, COLLECT({name: i.name, amount: rel.amount}) as recipeIngredients, COUNT(i) as count
-      WHERE count >= $ingredientCount
-      RETURN DISTINCT r as recipe, recipeIngredients
-  */
-    }
     const session = driver.session();
     const query = `
   MATCH (r:Recipe)-[rel:IS_IN]->(i:Ingredient)
