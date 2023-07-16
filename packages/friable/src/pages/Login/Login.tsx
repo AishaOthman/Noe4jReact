@@ -15,8 +15,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppBar, Toolbar } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../config/firebase';
+import { auth ,Providers } from '../../config/firebase';
 import logging from '../../config/logging';
+import firebase from 'firebase';
+import { SignInWithSocialMedia } from '../Auth/modules';
 
 function Copyright(props: any) {
   return (
@@ -58,7 +60,22 @@ export default function SignInSide() {
         setError(error.message);
     });
 }
+const signInWithSocialMedia = (provider: firebase.auth.AuthProvider) => {
+  if (error !== '') setError('');
 
+  setAuthenticating(true);
+
+  SignInWithSocialMedia(provider)
+  .then(result => {
+      logging.info(result);
+      navigate('/');
+  })
+  .catch(error => {
+      logging.error(error);
+      setAuthenticating(false);
+      setError(error.message);
+  });
+}
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -159,6 +176,16 @@ export default function SignInSide() {
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
+              </Button>
+              <Button
+               disabled={authenticating}
+              style={{ backgroundColor:'#ea4335', borderColor: '#ea4335'}}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => signInWithSocialMedia(Providers.google)}
+              >
+                Sign In With Google
               </Button>
               <Grid container>
                 <Grid item xs>
