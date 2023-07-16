@@ -18,6 +18,10 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 
+interface IPageProps {
+  name: string;
+}
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,7 +38,7 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+const SignUp:  React.FunctionComponent<IPageProps> = props => {
 const [registering, setRegistering] = useState<boolean>(false);
 const [firstName, setFirstName] = useState<string>('');
 const [lastName, setLastName] = useState<string>('');
@@ -144,6 +148,7 @@ const signUpWithEmailAndPassword = () => {
                   label="First Name"
                   autoFocus
                   onChange={event => setFirstName(event.target.value)}
+                  value={firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -155,6 +160,7 @@ const signUpWithEmailAndPassword = () => {
                   name="lastName"
                   autoComplete="family-name"
                   onChange={event => setLastName(event.target.value)}
+                  value={lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -166,6 +172,7 @@ const signUpWithEmailAndPassword = () => {
                   name="email"
                   autoComplete="email"
                   onChange={event => setEmail(event.target.value)}
+                  value={email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -178,6 +185,7 @@ const signUpWithEmailAndPassword = () => {
                   id="password"
                   autoComplete="new-password"
                   onChange={event => setPassword(event.target.value)}
+                  value={password}
                 /> 
                  </Grid>
                 <Grid item xs={12}>
@@ -190,6 +198,7 @@ const signUpWithEmailAndPassword = () => {
                   type="password"
                   id="confirm"
                 onChange={event => setConfirm(event.target.value)}
+                value={confirm}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -200,8 +209,9 @@ const signUpWithEmailAndPassword = () => {
               </Grid>
             </Grid>
             <Button
-           
-              type="submit"
+             disabled={registering}
+             color="success"
+             onClick={() => signUpWithEmailAndPassword()}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 ,}}
@@ -227,3 +237,4 @@ const signUpWithEmailAndPassword = () => {
     </ThemeProvider>
   );
 }
+export default  SignUp;

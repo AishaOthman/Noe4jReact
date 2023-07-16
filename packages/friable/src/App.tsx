@@ -21,6 +21,7 @@ import { auth } from './config/firebase';
 import logging from './config/logging';
 import { CircularProgress } from '@mui/material';
 import ForgetPassword from './pages/ForgetPassword/ForgetPassword';
+import ResetPassword from './pages/Auth/ResetPassword/ResetPassword';
 
 function App() {
         const [loading, setLoading] = useState<boolean>(true);
@@ -49,10 +50,11 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/Home1" element={<Home1 />} />
                     <Route path="/Results" element={<Results />} />
-                    <Route path="/Login" element={<Login />} />
+                    <Route path="/Login" element={<Login name={''} />} />
                     <Route path="/logout" element={<Logout />} />
-                    <Route path="/SingUp" element={<SingUP />} />
-                    <Route path="/ForgetPassword" element={<ForgetPassword />} />
+                    <Route path="/SingUp" element={<SingUP name={''} />} />
+                    <Route path="/ForgetPassword" element={<ForgetPassword name={''} />} />
+                    <Route path="/ResetPassword" element={<ResetPassword name="" />} />
                     <Route path="/ListOfIngredients" element={<ListOfIngredients checklist={[]} handleRemoveIngredient={() => { }} handleClearChecklist={() => { }} />} />
                     <Route path="/ListOfIngredientss" element={<ListOfIngredientss />} />
                     <Route path="/AddRecipe" element={<AddRecipe />} />

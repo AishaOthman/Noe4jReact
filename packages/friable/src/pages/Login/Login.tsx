@@ -20,6 +20,9 @@ import logging from '../../config/logging';
 import firebase from 'firebase';
 import { SignInWithSocialMedia } from '../Auth/modules';
 
+interface IPageProps {
+  name: string;
+}
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -35,7 +38,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+const SignInSide: React.FunctionComponent<IPageProps> = props => {
   
   const [authenticating, setAuthenticating] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
@@ -76,14 +79,14 @@ const signInWithSocialMedia = (provider: firebase.auth.AuthProvider) => {
       setError(error.message);
   });
 }
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -153,24 +156,29 @@ const signInWithSocialMedia = (provider: firebase.auth.AuthProvider) => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={event => setEmail(event.target.value)}
+                value={email}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Enter Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
+                onChange={event => setPassword(event.target.value)}
+                value={password}
               />
+      
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
               <Button
-              href="/Home1"
-                type="submit"
+              
+              onClick={() => signInWithEmailAndPassword()}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -212,3 +220,4 @@ const signInWithSocialMedia = (provider: firebase.auth.AuthProvider) => {
     </ThemeProvider>
   );
 }
+export default  SignInSide;

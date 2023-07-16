@@ -9,7 +9,9 @@ import { AppBar, Avatar, CssBaseline, Grid, TextField, ThemeProvider, Toolbar} f
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import { useState } from 'react';
-
+interface IPageProps {
+  name: string;
+}
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -25,7 +27,7 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
-export default function ForgetPassword() {
+const ForgetPassword: React.FunctionComponent<IPageProps> = props => {
     const [sending, setSending] = useState<boolean>(false);
         const [sent, setSent] = useState<boolean>(false);
         const [email, setEmail] = useState<string>('');
@@ -135,3 +137,5 @@ export default function ForgetPassword() {
                     </ThemeProvider>
                   );
 }
+
+export default ForgetPassword;
