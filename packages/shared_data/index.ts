@@ -20,6 +20,16 @@ export interface IRecipe {
       ingredients:IIngredient[]
       instructions:string[];
 }
+export interface IRoute {
+  path: string;
+  exact: boolean;
+  component: any;
+  name: string;
+  protected: boolean;
+}
+export interface IPageProps {
+  name: string;
+}
 
 export const RecipeCategories=[
   "Appetizers and Snacks" ,
